@@ -79,7 +79,16 @@ def generate_apple_sales_data_with_promo_adjustment(
         + seasonality_effect
         + promo_effect
         + df["weekend"] * 300
-        + np.random.normal(0, 50, n_rows)
-    ) * df["inflation_multiplier"] # adding random noise
+        + np.random.normal(0, 50, n_rows) # adding random noise
+    ) * df["inflation_multiplier"] 
 
-    
+    # Add previous day's demand
+    df["previous_days_demand"] = df["demand"].shift(1)
+    df["previous_days_demand"].fillna(
+        method="bfill", inplace=True
+    ) # fill the first row
+
+    # Drop temporary columns
+    df.drop(columns=["inflation_multiplier", "harvest_effect", "month"], inplace=True)
+
+    return df
