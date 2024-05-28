@@ -22,7 +22,7 @@ services:
       # MinIO Console is available at http://localhost:9001
       - "9001:9001"
     environment: 
-      MINIO-ROOT_USER: ahmedkarmous
+      MINIO_ROOT_USER: ahmedkarmous
       MINIO_ROOT_PASSWORD: root
     healthcheck:
       test: timeout 5s bash -c ':> /dev/tcp/127.0.0.1/9000' || exit 1
