@@ -5,7 +5,7 @@ services:
     image: postgres:latest
     environment: 
       POSTGRES_USER: ahmedkarmous
-      POSTGRES_PASSWORD: root
+      POSTGRES_PASSWORD: rootroot
       POSTGRES_DB: mlflowdb
     ports: 
       - 5432:5432
@@ -23,7 +23,7 @@ services:
       - "9001:9001"
     environment: 
       MINIO_ROOT_USER: ahmedkarmous
-      MINIO_ROOT_PASSWORD: root
+      MINIO_ROOT_PASSWORD: rootroot
     healthcheck:
       test: timeout 5s bash -c ':> /dev/tcp/127.0.0.1/9000' || exit 1
       interval: 1s
@@ -39,7 +39,7 @@ services:
         condition: service_healthy
     entrypoint: >
       bash -c "
-      mc alias set minio http://minio:9000 ahmedkarmous root &&
+      mc alias set minio http://minio:9000 ahmedkarmous rootroot &&
       if ! mc ls minio | grep --quiet bucket; then
         mc mb minio/bucket
       else
