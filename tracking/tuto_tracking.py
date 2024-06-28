@@ -3,7 +3,7 @@ import mlflow # global instance instead of MlflowClient,
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from tracking.dataset_generator import generate_apple_sales_data_with_promo_adjustment
+from dataset_generator import generate_apple_sales_data_with_promo_adjustment
 import numpy as np
 
 
