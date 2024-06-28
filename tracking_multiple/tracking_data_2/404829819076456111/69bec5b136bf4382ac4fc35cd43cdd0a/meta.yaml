@@ -1,0 +1,15 @@
+artifact_uri: /home/getalp/karmouah/Bureau/TutoMLflow/tracking_multiple/tracking_data_2/404829819076456111/69bec5b136bf4382ac4fc35cd43cdd0a/artifacts
+end_time: 1719574799982
+entry_point_name: ''
+experiment_id: '404829819076456111'
+lifecycle_stage: active
+run_id: 69bec5b136bf4382ac4fc35cd43cdd0a
+run_name: apples_rf_test
+run_uuid: 69bec5b136bf4382ac4fc35cd43cdd0a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1719574797954
+status: 3
+tags: []
+user_id: karmouah
