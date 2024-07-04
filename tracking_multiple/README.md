@@ -28,3 +28,13 @@ détailler les scénarios:
 il faut écrire un jeu de test 
 
 
+des cas gérés: 
+- exp spécifiée pas trouvée
+- exp spécifiée trouvée mais sans runs
+- exp nouvelle porte le nom d'une exp existante
+
+cas à gérer (si c'est nécessaire):
+    - plusieurs exécutions (runs) avec le même nom
+    - mlflow l'autorise
+    - ce cas est géré pour les exp car si ce n'était pas géré, mlflow va    ajouter les exécutions de cet exp dans l'exp existante alors que le chercheur l'ajoute comme une nouvelle 
+    - interdire cela va augmenter la complexité du code (il faut chercher le run selon le nom pour chacun avant de l'ajouter)
