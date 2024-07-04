@@ -23,6 +23,15 @@ def log_experiment_on_server(experiment_path, exp_name='', is_new_exp="False"):
         if new_name:
             exp_name = new_name
     
+    # if the experiment doesn't exists on the server but the user specifies that it's a new one
+    if (not exp_already_exists) and (is_new_exp in ["False", "false", "F", "f"]):
+        response = input(f"{exp_name} doesn't exist on the server but you indicated otherwise (not new). Do you want to add it as a new experiment (y/n): ")
+        while response not in ['y', 'n']:
+            response = input("please type y (yes) or n (no): ")
+        if response == 'n':
+            print(f"{exp_name} Not added")
+            return ''
+    
     server_experiment = mlflow.set_experiment(experiment_name=exp_name)
     for run_id in os.listdir(experiment_path):
         run_path = os.path.join(experiment_path, run_id)
@@ -103,7 +112,7 @@ def main():
                     # we log the experiment only if it's name is as specified or the user didn't specify a name and wants to log all the experiments
                     if (exp_name == '') or (exp_name != '' and experiment_name == exp_name):
                         exp_found += 1
-                        server_experiment_id = log_experiment_on_server(experiment_path, exp_name, is_new_exp)
+                        server_experiment_id = log_experiment_on_server(experiment_path, experiment_name, is_new_exp)
                 # if the experiment has been logged (it's either the exp the user wants to add or he wants to add all the experiments)
                 if server_experiment_id != '':
                     exp_added += 1

@@ -25,8 +25,6 @@ détailler les scénarios:
             - si elle n'existe pas mais il a specifié qu'elle n'est pas une nouvelle exp
 
 
-il faut écrire un jeu de test 
-
 
 des cas gérés: 
 - exp spécifiée pas trouvée
