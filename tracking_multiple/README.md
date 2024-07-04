@@ -31,7 +31,7 @@ des cas gérés:
 - exp spécifiée trouvée mais sans runs
 - exp nouvelle porte le nom d'une exp existante
 
-cas à gérer (si c'est nécessaire):
+cas à gérer (si c'est nécessaire) (si cela ne se fait pas, on peut ajouter les mêmes exp et les même runs plusieurs fois):
     - plusieurs exécutions (runs) avec le même nom
     - mlflow l'autorise
     - ce cas est géré pour les exp car si ce n'était pas géré, mlflow va    ajouter les exécutions de cet exp dans l'exp existante alors que le chercheur l'ajoute comme une nouvelle 
