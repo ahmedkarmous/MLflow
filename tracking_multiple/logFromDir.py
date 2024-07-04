@@ -6,28 +6,17 @@ import argparse
 TRACKING_URI = 'http://127.0.0.1:5000'
 
 
-def log_experiment_on_server(experiment_path, exp_name='', is_new_exp=False):
-    with open(os.path.join(experiment_path, 'meta.yaml')) as f:
-        experiment_meta = yaml.safe_load(f)
-    
-    experiment_name = experiment_meta['name']
-
-
+def log_experiment_on_server(exp_name='', is_new_exp=False):
     mlflow.set_tracking_uri(TRACKING_URI)
+    # check if the experiment already exists on the server (using the name)
+    exp_already_exists = mlflow.get_experiment_by_name(exp_name)
+    # if the experiment already exists and the user specified that it's a new experiment, we ask him if he wants to change the name or log runs to the existing experiment
+    if is_new_exp and exp_already_exists:
+        new_name = input(f"{exp_name} already exists on the server, type a new name or click on Enter to add runs to the existing exp: ")
+        if new_name:
+            exp_name = new_name
 
-    # the current experiment is NOT what the user wants to add
-    if exp_name != '' and exp_name != experiment_name:
-        return ''
-
-    # the current experiment is what the user wants to add to the server OR wants to add all the experiments
-    if exp_name != '':
-        exp_already_exists = mlflow.get_experiment_by_name(exp_name)
-        if is_new_exp and exp_already_exists:
-            new_name = input(f"{exp_name} already exists on the server, type a new name or click on Enter to add runs to the existing exp: ")
-            if new_name:
-                experiment_name = new_name
-
-    server_experiment = mlflow.set_experiment(experiment_name=experiment_name)
+    server_experiment = mlflow.set_experiment(experiment_name=exp_name)
     return server_experiment.experiment_id
 
 
@@ -85,11 +74,18 @@ def main():
         is_new_exp = args.new_exp
 
     added_exp = 0
+    server_experiment_id = ''
     for experiment_id in os.listdir(mlruns_path):
         if experiment_id not in ['0', '.trash', 'models']:
             experiment_path = os.path.join(mlruns_path, experiment_id)
             if os.path.isdir(experiment_path):
-                server_experiment_id = log_experiment_on_server(experiment_path, exp_name, is_new_exp)
+                # check if the experiment name is equal to the experiment name the user wants to add
+                with open(os.path.join(experiment_path, 'meta.yaml')) as f:
+                    experiment_meta = yaml.safe_load(f)
+                    experiment_name = experiment_meta['name']
+                    # we log the experiment only if it's name is as specified or the user didn't specify a name and wants to log all the experiments
+                    if (exp_name == '') or (exp_name != '' and experiment_name == exp_name):
+                        server_experiment_id = log_experiment_on_server(exp_name, is_new_exp)
                 # if the experiment has been logged (it's either the exp the user wants to add or he wants to add all the experiments)
                 if server_experiment_id != '':
                     added_exp += 1
