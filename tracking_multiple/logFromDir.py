@@ -6,7 +6,7 @@ import argparse
 TRACKING_URI = 'http://127.0.0.1:5000'
 
 
-def log_experiment_on_server(exp_name='', is_new_exp=False):
+def log_experiment_on_server(experiment_path, exp_name='', is_new_exp=False):
     mlflow.set_tracking_uri(TRACKING_URI)
     # check if the experiment already exists on the server (using the name)
     exp_already_exists = mlflow.get_experiment_by_name(exp_name)
@@ -17,7 +17,24 @@ def log_experiment_on_server(exp_name='', is_new_exp=False):
             exp_name = new_name
 
     server_experiment = mlflow.set_experiment(experiment_name=exp_name)
+    # os.listdir affiche liste les dossiers et les fichiers, d'où la ligne 23
+    runs = os.listdir(experiment_path)
+    # check if the experiment folder contains any run folders
+    if runs == ['meta.yaml']: 
+        print(f"No runs associated with the experiment {exp_name}. Experiment NOT added.")
+        return
+    for run_id in os.listdir(experiment_path):
+        run_path = os.path.join(experiment_path, run_id)
+        if os.path.isdir(run_path):
+            log_run_on_server(server_experiment.experiment_id, run_path)
     return server_experiment.experiment_id
+
+
+
+
+
+
+
 
 
 def log_run_on_server(experiment_id, run_path):
@@ -85,14 +102,10 @@ def main():
                     experiment_name = experiment_meta['name']
                     # we log the experiment only if it's name is as specified or the user didn't specify a name and wants to log all the experiments
                     if (exp_name == '') or (exp_name != '' and experiment_name == exp_name):
-                        server_experiment_id = log_experiment_on_server(exp_name, is_new_exp)
+                        server_experiment_id = log_experiment_on_server(experiment_path, exp_name, is_new_exp)
                 # if the experiment has been logged (it's either the exp the user wants to add or he wants to add all the experiments)
                 if server_experiment_id != '':
                     added_exp += 1
-                    for run_id in os.listdir(experiment_path):
-                        run_path = os.path.join(experiment_path, run_id)
-                        if os.path.isdir(run_path):
-                            log_run_on_server(server_experiment_id, run_path)
                     # The only experiment that the user wants to add has been added        
                     if exp_name and server_experiment_id != '':
                         break # We don't finish the iteration
