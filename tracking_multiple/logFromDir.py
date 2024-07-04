@@ -7,6 +7,13 @@ TRACKING_URI = 'http://127.0.0.1:5000'
 
 
 def log_experiment_on_server(experiment_path, exp_name='', is_new_exp=False):
+    # if the experiment has no runs, we do nothing, there's no reason to create an experiment
+    runs = os.listdir(experiment_path) # os.listdir affiche liste les dossiers et les fichiers, d'où la ligne 30
+    # check if the experiment folder contains any run folders
+    if runs == ['meta.yaml']: 
+        print(f"No runs associated with the experiment {exp_name}. Experiment NOT added.")
+        return ''
+    
     mlflow.set_tracking_uri(TRACKING_URI)
     # check if the experiment already exists on the server (using the name)
     exp_already_exists = mlflow.get_experiment_by_name(exp_name)
@@ -15,14 +22,8 @@ def log_experiment_on_server(experiment_path, exp_name='', is_new_exp=False):
         new_name = input(f"{exp_name} already exists on the server, type a new name or click on Enter to add runs to the existing exp: ")
         if new_name:
             exp_name = new_name
-
+    
     server_experiment = mlflow.set_experiment(experiment_name=exp_name)
-    # os.listdir affiche liste les dossiers et les fichiers, d'où la ligne 23
-    runs = os.listdir(experiment_path)
-    # check if the experiment folder contains any run folders
-    if runs == ['meta.yaml']: 
-        print(f"No runs associated with the experiment {exp_name}. Experiment NOT added.")
-        return
     for run_id in os.listdir(experiment_path):
         run_path = os.path.join(experiment_path, run_id)
         if os.path.isdir(run_path):
@@ -90,7 +91,8 @@ def main():
         exp_name = args.exp_name
         is_new_exp = args.new_exp
 
-    added_exp = 0
+    exp_added = 0
+    exp_found = 0
     server_experiment_id = ''
     for experiment_id in os.listdir(mlruns_path):
         if experiment_id not in ['0', '.trash', 'models']:
@@ -102,19 +104,20 @@ def main():
                     experiment_name = experiment_meta['name']
                     # we log the experiment only if it's name is as specified or the user didn't specify a name and wants to log all the experiments
                     if (exp_name == '') or (exp_name != '' and experiment_name == exp_name):
+                        exp_found += 1
                         server_experiment_id = log_experiment_on_server(experiment_path, exp_name, is_new_exp)
                 # if the experiment has been logged (it's either the exp the user wants to add or he wants to add all the experiments)
                 if server_experiment_id != '':
-                    added_exp += 1
+                    exp_added += 1
                     # The only experiment that the user wants to add has been added        
                     if exp_name and server_experiment_id != '':
                         break # We don't finish the iteration
 
 
-    if added_exp == 0 and args.exp_name:
+    if exp_found == 0 and args.exp_name:
         print(f"The experiment named '{exp_name}' was not found (locally) - No experiment added to the server")
-    else:
-        print(f"{added_exp} experiment(s) added to {TRACKING_URI}")
+    elif exp_added > 0:
+        print(f"{exp_added} experiment(s) added to {TRACKING_URI}")
 
 
 # mlruns_path = '/home/getalp/karmouah/Bureau/TutoMLflow/tracking_multiple/tracking_data_2'
