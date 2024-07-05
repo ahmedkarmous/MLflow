@@ -101,7 +101,11 @@ def main():
     exp_added = 0
     exp_found = 0
     server_experiment_id = ''
+    if not (os.path.isdir(mlruns_path)):
+        print(f"No direcotory found with the path: {mlruns_path}")
+        return
     for experiment_id in os.listdir(mlruns_path):
+        server_experiment_id = '' # it's necessary if we want to add multiple experiments
         if experiment_id not in ['0', '.trash', 'models']:
             experiment_path = os.path.join(mlruns_path, experiment_id)
             if os.path.isdir(experiment_path):
@@ -116,7 +120,7 @@ def main():
                 # if the experiment has been logged (it's either the exp the user wants to add or he wants to add all the experiments)
                 if server_experiment_id != '':
                     exp_added += 1
-                    # The only experiment that the user wants to add has been added        
+                    # The only experiment that the user wants to add has been found and added        
                     if exp_name and server_experiment_id != '':
                         break # We don't finish the iteration
 

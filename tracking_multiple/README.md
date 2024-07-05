@@ -36,3 +36,5 @@ cas à gérer (si c'est nécessaire) (si cela ne se fait pas, on peut ajouter le
     - mlflow l'autorise
     - ce cas est géré pour les exp car si ce n'était pas géré, mlflow va    ajouter les exécutions de cet exp dans l'exp existante alors que le chercheur l'ajoute comme une nouvelle 
     - interdire cela va augmenter la complexité du code (il faut chercher le run selon le nom pour chacun avant de l'ajouter)
+
+cas à ajouter aussi: si le chercheur veut ajouter plusieurs exp (pas tout le dossier de tracking) et donc il doit préciser leurs noms (on passe une liste en paramètre?)
