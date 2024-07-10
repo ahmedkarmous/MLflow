@@ -1,0 +1,9 @@
+               key                |       value        |   timestamp   |             run_uuid             | step | is_nan 
+----------------------------------+--------------------+---------------+----------------------------------+------+--------
+ training_mean_squared_error      | 1326.7095234204694 | 1720602361032 | 6987df210ccf456cad8bbe400160c972 |    0 | f
+ training_mean_absolute_error     | 30.499499838575716 | 1720602361032 | 6987df210ccf456cad8bbe400160c972 |    0 | f
+ training_r2_score                | 0.7807091266742402 | 1720602361032 | 6987df210ccf456cad8bbe400160c972 |    0 | f
+ training_root_mean_squared_error | 36.424023987204784 | 1720602361032 | 6987df210ccf456cad8bbe400160c972 |    0 | f
+ training_score                   | 0.7807091266742402 | 1720602361052 | 6987df210ccf456cad8bbe400160c972 |    0 | f
+(5 lignes)
+
