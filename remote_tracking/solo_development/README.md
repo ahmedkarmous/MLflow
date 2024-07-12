@@ -1,0 +1,1 @@
+- quand on supprime une experience, elle reste dans la base (mais elle est marquée comme deleted) => il faut chercher comment résoudre ça, est-ce qu'il faut supprimer tout de la base manuellement (les runs, les tags, tout ce qui est associé à l'exp)
