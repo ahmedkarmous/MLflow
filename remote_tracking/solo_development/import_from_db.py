@@ -158,6 +158,7 @@ def delete_experiment_from_db(experiment_name):
             conn.close()
 
 
+
 if __name__ == '__main__':
     # delete_experiment_from_db('experiment1') # add "if exists"
     mlflow.set_tracking_uri("http://127.0.0.1:5000")
@@ -175,3 +176,4 @@ if __name__ == '__main__':
                     mlflow.log_metric(metric.key, metric.value)
                 for tag in run.tags:
                     mlflow.set_tag(tag.key, tag.value)
+                mlflow.log_artifact(experiment.artifact_location)
