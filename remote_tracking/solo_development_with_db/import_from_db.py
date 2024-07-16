@@ -84,7 +84,7 @@ def get_all_experiments_from_db(DB_URL):
 def arg_parsing():
     parser = argparse.ArgumentParser()
     parser.add_argument('--db_url', type=str, help="The connection string for your local database (where your experiments are stored)", required=True)
-    parser.add_argument('--tracking_url', type=str, help="The url for the remote tracking server", required=True)
+    parser.add_argument('--tracking_url', type=str, help="The url of the remote tracking server", required=True)
     args = parser.parse_args()
     return args
 
