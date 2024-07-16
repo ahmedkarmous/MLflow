@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_diabetes
 from sklearn.ensemble import RandomForestRegressor
 
-SHARED_DB_URL = "postgresql://user1:password1@localhost:5433/mlflowdb1"
-SOLO_DB_URL = "postgresql://user:password@localhost:5432/mlflowdb"
+SOLO_DB_URL = "postgresql://user1:password1@localhost:5433/mlflowdb1"
+SHARED_DB_URL = "postgresql://user:password@localhost:5432/mlflowdb"
 
 
 def delete_all_experiments_from_db(DB_URL):
@@ -50,8 +50,9 @@ def delete_all_experiments_from_db(DB_URL):
 
 
 # On vide la base à chaque fois pour ne pas ajouter des exp déjà existantes sur le serveur commun
-delete_all_experiments_from_db(SHARED_DB_URL)
 delete_all_experiments_from_db(SOLO_DB_URL)
+
+# delete_all_experiments_from_db(SHARED_DB_URL)
 
 
 mlflow.set_tracking_uri("postgresql://user1:password1@localhost:5433/mlflowdb1")
