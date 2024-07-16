@@ -57,7 +57,7 @@ delete_all_experiments_from_db(SOLO_DB_URL)
 
 mlflow.set_tracking_uri("postgresql://user1:password1@localhost:5433/mlflowdb1")
 
-mlflow.set_experiment("experiment_test_1")
+mlflow.set_experiment("experiment_test_2")
 
 mlflow.sklearn.autolog()
 
